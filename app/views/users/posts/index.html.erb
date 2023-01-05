@@ -1,0 +1,42 @@
+<p style="color: green"><%= notice %></p>
+
+<style>
+  div{
+    text-align:center;
+  }
+</style>
+
+<div>
+  <h1>Posts</h1>
+</div>
+
+<div id="posts">
+  <% @posts.each do |post| %>
+    
+    <%= render post %>
+    <p><%= post.likes.count %> <%= (post.likes.count) == 1 ? 'Like' : 'Likes'%></p>
+    
+    <p>
+      <%= link_to "Show this post", post %>
+    </p>
+  <% end %>
+
+
+<%= link_to "New post", new_post_path %>
+<div>
+  <ul class="pager">
+     <li class="previous <%= @page == 1 ? 'disabled' : '' %>">
+       <div class="center">
+         <%= link_to_if @page > 1, "<< Previous", posts_path(page: @page - 1) %>
+       </div>
+     </li>
+
+     <li class="next <%= @page == (Post.count % @per == 0 ? Post.count / @per : (Post.count / @per) + 1) ? 'disabled' : '' %>">
+         <div class="center">
+           <%= link_to_if @page < (Post.count % @per == 0 ? Post.count / @per : (Post.count / @per) + 1), "Next >>", posts_path(page: @page + 1) %>
+         </div>
+     </li>
+  </ul>
+
+
+</div>
